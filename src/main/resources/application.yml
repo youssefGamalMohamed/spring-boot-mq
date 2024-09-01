@@ -1,0 +1,26 @@
+spring:
+    application.name: mq-examples
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+
+server:
+  port: 9090
+
+
+logging:
+  level:
+    org:springframework.amqp: INFO
+    org.springframework.amqp.rabbit: INFO
+    org.springframework.amqp.rabbit.connection: INFO
+
+# properties for connect to mq that will be used in RabbitMqConfig java class
+rabbitmq:
+    queues-names:
+        order_inventory_service_queue: order_inventory_service_queue
+    exchange-names:
+        ecommerce_exchange: ecommerce_exchange
+    routing-keys:
+        order_inventory_service_routing_key: order_inventory_service_routing_key
