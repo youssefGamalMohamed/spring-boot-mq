@@ -20,7 +20,11 @@ logging:
 rabbitmq:
     queues-names:
         order_inventory_service_queue: order_inventory_service_queue
+        notification_system_user1_queue: notification_system_user1_queue
+        notification_system_user2_queue: notification_system_user2_queue
     exchange-names:
-        ecommerce_exchange: ecommerce_exchange
+        ecommerce_exchange: ecommerce_exchange	
+        notification_topic_exchange: notification_topic_exchange
     routing-keys:
         order_inventory_service_routing_key: order_inventory_service_routing_key
+        notification_service_routing_default_key: notification_service_routing_default_key
