@@ -22,9 +22,14 @@ rabbitmq:
         order_inventory_service_queue: order_inventory_service_queue
         notification_system_user1_queue: notification_system_user1_queue
         notification_system_user2_queue: notification_system_user2_queue
+        ipn_transaction_queue: ipn_transaction_queue	
+        ipn_transaction_deadLetter_queue: ipn.transaction.deadLetter_queue
     exchange-names:
         ecommerce_exchange: ecommerce_exchange	
         notification_topic_exchange: notification_topic_exchange
+        ipn_exchange: ipn.exchange
     routing-keys:
         order_inventory_service_routing_key: order_inventory_service_routing_key
         notification_service_routing_default_key: notification_service_routing_default_key
+        ipn_transaction_queue_routingKey: ipn_transaction_queue_routingKey
+        ipn_deadLetter_queue_routingKey: ipn.deadLetter_queue_routingKey

@@ -27,6 +27,9 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.exchange-names.notification_topic_exchange}")
     private String notification_topic_exchange;
 
+    @Value("${rabbitmq.exchange-names.ipn_exchange}")
+    private String ipnExchange;
+
     @Value("${rabbitmq.routing-keys.order_inventory_service_routing_key}")
     private String order_inventory_service_routing_key;
 
@@ -36,9 +39,31 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.queues-names.notification_system_user2_queue}")
     private String notification_system_user2_queue;
 
+    @Value("${rabbitmq.queues-names.ipn_transaction_queue}")
+    private String ipnTransactionQueue;
+
+    @Value("${rabbitmq.queues-names.ipn_transaction_deadLetter_queue}")
+    private String ipnTransactionDeadLetterQueue;
 
     @Value("${rabbitmq.routing-keys.notification_service_routing_default_key}")
     private String notification_service_routing_default_key;
+
+    @Value("${rabbitmq.routing-keys.ipn_transaction_queue_routingKey}")
+    private String ipn_transaction_queue_routingKey;
+
+    @Value("${rabbitmq.routing-keys.ipn_deadLetter_queue_routingKey}")
+    private String ipn_deadLetter_queue_routingKey;
+
+
+    @Bean
+    public Queue ipnTransactionQueue() {
+        return new Queue(this.ipnTransactionQueue);
+    }
+
+    @Bean
+    public Queue ipnTransactionDeadLetterQueue() {
+        return new Queue(this.ipnTransactionDeadLetterQueue);
+    }
 
     @Bean
     public Queue notificationSystemUser1Queue() {
@@ -65,11 +90,32 @@ public class RabbitMQConfig {
         return new DirectExchange(this.ecommerce_exchange);
     }
 
+    @Bean
+    public DirectExchange ipnExchangeBean() {
+        return new DirectExchange(this.ipnExchange);
+    }
+
+    
 
     @Bean
     public TopicExchange noificationSystemTopicExchange() {
         return new TopicExchange(this.notification_topic_exchange);
     }
+
+    @Bean
+    public Binding binding_ipnTransactionQueue_to_ipnExchange() {
+        return BindingBuilder.bind(ipnTransactionQueue())
+                .to(ipnExchangeBean())
+                .with(this.ipn_transaction_queue_routingKey);
+    }
+
+    @Bean
+    public Binding binding_ipnTransactionDeadLetterQueue_to_ipnExchange() {
+        return BindingBuilder.bind(ipnTransactionDeadLetterQueue())
+                .to(ipnExchangeBean())
+                .with(this.ipn_deadLetter_queue_routingKey);
+    }
+
 
     @Bean
     public Binding binding_orderInventoryQueue_to_ecommerceExchange() {
@@ -78,7 +124,8 @@ public class RabbitMQConfig {
                 .with(this.order_inventory_service_routing_key);
     }
 
-    
+
+
     @Bean
     public Binding binding_notificationUser1Queue_to_notificationTopicExchange() {
         return BindingBuilder.bind(notificationSystemUser1Queue())
