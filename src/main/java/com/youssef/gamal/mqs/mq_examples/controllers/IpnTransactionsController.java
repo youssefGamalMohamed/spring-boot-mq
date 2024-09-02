@@ -13,6 +13,10 @@ import com.youssef.gamal.mqs.mq_examples.producers.IpnTransactionServiceIfc;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -27,8 +31,9 @@ public class IpnTransactionsController {
     @PostMapping("/api/v1/transactions")
     public ResponseEntity<?> addTransaction(@RequestBody IpnTransactionDto ipnTransactionDto) {
         log.info("addTransaction({})",ipnTransactionDto);
-        ipnTransactionServiceIfc.makeTransaction(ipnTransactionDto);
+        String correlationId = ipnTransactionServiceIfc.makeTransaction(ipnTransactionDto);
         return ResponseEntity.ok()
-                        .body(Map.of("msg", "done"));
+                        .body(Map.of("corrleationId", correlationId));
     }
+
 }

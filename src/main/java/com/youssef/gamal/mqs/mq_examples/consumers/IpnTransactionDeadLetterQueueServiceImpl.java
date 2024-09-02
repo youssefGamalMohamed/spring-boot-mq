@@ -1,6 +1,5 @@
 package com.youssef.gamal.mqs.mq_examples.consumers;
 
-import java.util.Map;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;

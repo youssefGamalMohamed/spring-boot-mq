@@ -57,7 +57,11 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue ipnTransactionQueue() {
-        return new Queue(this.ipnTransactionQueue);
+        Queue ipnQ =  new Queue(this.ipnTransactionQueue);
+        ipnQ.addArgument("x-message-ttl", 360000);
+        ipnQ.addArgument("x-dead-letter-exchange", this.ipnExchange);
+        ipnQ.addArgument("x-dead-letter-routing-key", this.ipn_deadLetter_queue_routingKey);
+        return ipnQ;
     }
 
     @Bean
